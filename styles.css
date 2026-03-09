@@ -1,0 +1,1018 @@
+:root {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 91% 60%;
+    --border: 217 33% 17%;
+    --moon-silver: 210 20% 80%;
+    --star-gold: 45 93% 58%;
+    --cosmic-purple: 271 91% 65%;
+    --void-red: 0 84% 60%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background: linear-gradient(135deg, hsl(222, 47%, 6%) 0%, hsl(240, 30%, 8%) 50%, hsl(270, 30%, 10%) 100%);
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
+#star-background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: pulse var(--duration, 3s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+.shooting-star {
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, white, transparent);
+    animation: shoot 1s linear forwards;
+    opacity: 0;
+    transform: rotate(-45deg);
+}
+
+@keyframes shoot {
+    0% { opacity: 0; transform: translateX(0) rotate(-45deg); }
+    10% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-300px) rotate(-45deg); }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 0.5rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, hsl(var(--moon-silver)), hsl(var(--star-gold)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+}
+
+.current-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.time-gold {
+    color: hsl(var(--star-gold));
+}
+
+.location-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.85rem;
+}
+
+.location-selector select {
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    max-width: 250px;
+}
+
+.tabs {
+    display: flex;
+    gap: 0.25rem;
+    background: hsl(var(--muted) / 0.3);
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    background: transparent;
+    border: none;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+}
+
+.tab-content {
+    display: none;
+    flex: 1;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.nav-btn {
+    background: hsl(var(--muted) / 0.5);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-btn:hover {
+    background: hsl(var(--muted));
+}
+
+.day-info {
+    text-align: center;
+    min-width: 180px;
+}
+
+.selected-date {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, hsl(var(--moon-silver)), hsl(var(--star-gold)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.return-today {
+    background: transparent;
+    border: none;
+    color: hsl(var(--accent));
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 0.25rem;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(222, 47%, 10%) 100%);
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.5rem;
+}
+
+.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.clickable:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Card Date Label - Fix 3: Date before each category */
+.card-date-label {
+    font-size: 0.65rem;
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+    margin-bottom: 0.25rem;
+    opacity: 0.8;
+}
+
+/* Swipeable Card Styles - FIXED SIZE */
+.swipeable-card {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y pinch-zoom;
+    width: 100%;
+    min-height: 150px;
+}
+
+.swipeable-card .card-inner {
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease;
+}
+
+.swipeable-card.swiping-left .card-inner {
+    transform: translateX(-40px);
+    opacity: 0.4;
+}
+
+.swipeable-card.swiping-right .card-inner {
+    transform: translateX(40px);
+    opacity: 0.4;
+}
+
+.swipeable-card.swipe-enter-left .card-inner {
+    animation: enterFromRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.swipeable-card.swipe-enter-right .card-inner {
+    animation: enterFromLeft 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes enterFromRight {
+    0% { transform: translateX(40px); opacity: 0.4; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes enterFromLeft {
+    0% { transform: translateX(-40px); opacity: 0.4; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.swipe-hint {
+    text-align: center;
+    font-size: 0.65rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.swipe-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid hsl(var(--border));
+}
+
+.swipe-btn {
+    background: hsl(var(--muted) / 0.5);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+    transition: all 0.2s;
+}
+
+.swipe-btn:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+}
+
+/* Moon Hero */
+.moon-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.moon-hero-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.moon-visual {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.moon-glow {
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(circle, hsl(var(--moon-silver) / 0.3), transparent);
+    filter: blur(40px);
+    border-radius: 50%;
+}
+
+.phase-emoji {
+    font-size: 5rem;
+    position: relative;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px hsl(var(--moon-silver) / 0.5));
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.phase-info {
+    text-align: left;
+}
+
+.phase-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, hsl(var(--moon-silver)), hsl(var(--star-gold)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.illumination {
+    color: hsl(var(--muted-foreground));
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.exact-phase-box {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: hsl(var(--muted) / 0.5);
+    border-radius: 0.5rem;
+    color: hsl(var(--star-gold));
+    font-size: 0.85rem;
+}
+
+.exact-time {
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+/* Rise/Set */
+.rise-set-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid hsl(var(--border));
+}
+
+.rise-set-item {
+    text-align: center;
+}
+
+.rise-set-time {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: hsl(var(--star-gold));
+}
+
+/* Mansion & Sign items */
+.all-mansions-container,
+.all-signs-container {
+    margin-top: 0.25rem;
+}
+
+.mansion-item,
+.sign-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.5rem;
+    background: hsl(var(--muted) / 0.2);
+    border-radius: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+}
+
+.mansion-item:last-child,
+.sign-item:last-child {
+    margin-bottom: 0;
+}
+
+.mansion-item-name,
+.sign-item-name {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.mansion-item-name:hover,
+.sign-item-name:hover {
+    text-decoration: underline;
+}
+
+.mansion-item-time,
+.sign-item-time {
+    color: hsl(var(--muted-foreground));
+}
+
+/* Zodiac Card */
+.zodiac-emoji {
+    font-size: 2.5rem;
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 5px hsl(var(--cosmic-purple) / 0.5)); }
+    50% { filter: drop-shadow(0 0 15px hsl(var(--cosmic-purple) / 0.8)); }
+}
+
+.zodiac-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.zodiac-degree {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.85rem;
+}
+
+/* Mansion number badge */
+.mansion-number-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: linear-gradient(135deg, hsl(var(--cosmic-purple)), hsl(var(--accent)));
+    border-radius: 50%;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    margin-right: 0.4rem;
+    flex-shrink: 0;
+}
+
+/* VOC Card */
+.voc-card.voc-active {
+    background: linear-gradient(135deg, hsl(var(--void-red) / 0.1) 0%, hsl(var(--card)) 100%);
+    border-color: hsl(var(--void-red) / 0.3);
+}
+
+.voc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.voc-status {
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.voc-status.active {
+    background: hsl(var(--void-red) / 0.2);
+    color: hsl(var(--void-red));
+}
+
+.voc-status.inactive {
+    background: hsl(120, 50%, 40% / 0.2);
+    color: hsl(120, 50%, 60%);
+}
+
+.voc-text {
+    color: hsl(var(--muted-foreground));
+    line-height: 1.5;
+    font-size: 0.85rem;
+}
+
+.voc-timing {
+    background: hsl(var(--muted) / 0.3);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.voc-timing p,
+.voc-timing div {
+    font-size: 0.8rem;
+    color: hsl(var(--void-red));
+}
+
+.voc-period-item {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.voc-period-item:last-child {
+    border-bottom: none;
+}
+
+/* Retro Card */
+.retro-planets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.retro-planet {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: hsl(var(--muted) / 0.3);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.retro-planet:hover {
+    background: hsl(var(--muted) / 0.5);
+}
+
+.retro-emoji {
+    font-size: 1.25rem;
+}
+
+.retro-info {
+    flex: 1;
+}
+
+.retro-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.retro-dates {
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.no-retro {
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+}
+
+/* Calendar */
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.month-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, hsl(var(--moon-silver)), hsl(var(--star-gold)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 160px;
+    text-align: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    flex: 1;
+    align-content: start;
+}
+
+.weekday {
+    text-align: center;
+    padding: 0.4rem;
+    font-size: 0.7rem;
+    color: hsl(var(--muted-foreground));
+    font-weight: 500;
+}
+
+#calendar-days {
+    display: contents;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2px;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.calendar-day:hover {
+    background: hsl(var(--muted));
+    transform: scale(1.02);
+}
+
+.calendar-day.today {
+    border-color: hsl(var(--accent));
+    box-shadow: 0 0 8px hsl(var(--accent) / 0.3);
+}
+
+.calendar-day.selected {
+    background: hsl(var(--accent) / 0.2);
+    border-color: hsl(var(--accent));
+}
+
+.calendar-day.other-month {
+    opacity: 0.3;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    border: none;
+}
+
+.day-number {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.day-phase {
+    font-size: 1rem;
+    margin-top: 1px;
+}
+
+.day-mansions {
+    font-size: 0.5rem;
+    color: hsl(var(--cosmic-purple));
+    text-align: center;
+    line-height: 1.1;
+    max-height: 1.5rem;
+    overflow: hidden;
+}
+
+.day-signs {
+    font-size: 0.5rem;
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+}
+
+/* Footer */
+.footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+    padding-bottom: 1rem;
+}
+
+.footer-sub {
+    margin-top: 0.25rem;
+    font-size: 0.65rem;
+}
+
+/* Dialogs */
+.dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1rem;
+}
+
+/* Secondary dialogs (opened from day dialog) get higher z-index */
+.dialog-overlay.dialog-secondary {
+    z-index: 200;
+}
+
+.dialog {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(222, 47%, 12%) 100%);
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+    padding: 1.5rem;
+    max-width: 450px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.position {
+    position: relative;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: hsl(var(--muted-foreground));
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.dialog-close:hover {
+    color: hsl(var(--foreground));
+}
+
+.dialog-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, hsl(var(--moon-silver)), hsl(var(--star-gold)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    padding-right: 2rem;
+}
+
+.dialog-section {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+    background: hsl(var(--muted) / 0.2);
+}
+
+.dialog-section h4 {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.4rem;
+    font-size: 0.7rem;
+}
+
+.dialog-section p {
+    color: hsl(var(--foreground));
+    line-height: 1.5;
+    white-space: pre-line;
+    font-size: 0.9rem;
+}
+
+.dialog-section.good {
+    background: hsl(120, 50%, 40% / 0.1);
+    border: 1px solid hsl(120, 50%, 40% / 0.3);
+}
+
+.dialog-section.good h4 {
+    color: hsl(120, 50%, 60%);
+}
+
+.dialog-section.bad {
+    background: hsl(var(--void-red) / 0.1);
+    border: 1px solid hsl(var(--void-red) / 0.3);
+}
+
+.dialog-section.bad h4 {
+    color: hsl(var(--void-red));
+}
+
+/* Day dialog items - clickable list */
+.day-dialog-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.day-dialog-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    background: hsl(var(--muted) / 0.3);
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.day-dialog-item:hover {
+    background: hsl(var(--muted) / 0.6);
+}
+
+.day-dialog-item .item-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.day-dialog-item .item-text {
+    flex: 1;
+}
+
+.day-dialog-item .item-arrow {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.8rem;
+}
+
+.expand-daily-btn {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--cosmic-purple)));
+    border: none;
+    border-radius: 0.5rem;
+    color: hsl(var(--foreground));
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.expand-daily-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(var(--accent) / 0.3);
+}
+
+/* Day Dialog Navigation */
+.day-dialog-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.day-dialog-nav .dialog-title {
+    margin-bottom: 0;
+    padding-right: 0;
+    text-align: center;
+    flex: 1;
+    font-size: 1rem;
+}
+
+.day-dialog-nav .swipe-btn {
+    flex-shrink: 0;
+}
+
+/* Day dialog swipeable */
+.day-dialog-swipeable {
+    touch-action: pan-y pinch-zoom;
+    overflow: hidden;
+}
+
+/* Responsive - Mobile First */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .title {
+        font-size: 1.75rem;
+    }
+    
+    .phase-emoji {
+        font-size: 4rem;
+    }
+    
+    .phase-name {
+        font-size: 1.2rem;
+    }
+
+    .moon-hero-layout {
+        gap: 1rem;
+    }
+    
+    .calendar-day {
+        padding: 1px;
+    }
+    
+    .day-number {
+        font-size: 0.65rem;
+    }
+    
+    .day-phase {
+        font-size: 0.85rem;
+    }
+    
+    .day-mansions,
+    .day-signs {
+        display: none;
+    }
+    
+    .swipe-nav {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    
+    .swipe-btn {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    
+    .dialog {
+        padding: 1rem;
+        max-height: 90vh;
+    }
+    
+    .dialog-title {
+        font-size: 1.1rem;
+    }
+
+    .day-dialog-nav {
+        flex-wrap: wrap;
+    }
+
+    .day-dialog-nav .dialog-title {
+        order: -1;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .day-dialog-nav .swipe-btn {
+        flex: 1;
+    }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+    
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .phase-emoji {
+        font-size: 6rem;
+    }
+    
+    .calendar-day {
+        min-height: 70px;
+    }
+    
+    .day-number {
+        font-size: 0.85rem;
+    }
+    
+    .day-phase {
+        font-size: 1.2rem;
+    }
+}
