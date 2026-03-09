@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luna Astrology</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
+</head>
+<body>
+    <div id="star-background"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Luna Astrology</h1>
+            <div class="current-time">
+                <span id="current-date"></span>
+                <span class="time-gold" id="current-time"></span>
+            </div>
+        </header>
+
+        <div class="location-selector">
+            <span>📍 Location:</span>
+            <select id="location-select"></select>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="daily">Daily View</button>
+            <button class="tab-btn" data-tab="calendar">Monthly Calendar</button>
+        </div>
+
+        <!-- Daily View -->
+        <div id="daily-view" class="tab-content active">
+            <div class="nav-controls">
+                <button class="nav-btn" id="prev-day">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div class="day-info">
+                    <div class="selected-date" id="selected-date"></div>
+                    <button class="return-today" id="return-today">Return to Today</button>
+                </div>
+                <button class="nav-btn" id="next-day">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+
+            <div class="cards-container">
+             <!-- Moon Phase Card - Swipeable -->
+<div class="card moon-hero swipeable-card" data-aspect="phase">
+    <div class="swipe-hint">← Swipe to see other days →</div>
+    <div class="card-date-label" id="phase-card-date"></div>
+    <div class="label">Current Phase</div>
+    <div class="moon-hero-layout">
+        <div class="moon-visual">
+            <div class="moon-glow"></div>
+            <div class="phase-emoji" id="phase-emoji">🌕</div>
+        </div>
+        <div class="phase-info">
+            <div class="phase-name clickable" id="phase-name">Full Moon</div>
+            <div class="illumination" id="illumination">100% illuminated</div>
+            <div class="exact-phase-box" id="exact-phase-box" style="display: none;">
+                <span id="exact-phase-label"></span>
+                <span class="exact-time" id="exact-phase-time"></span>
+            </div>
+        </div>
+    </div>
+    <!-- Rise/Set integrated -->
+    <div class="rise-set-grid">
+        <div class="rise-set-item">
+            <div class="label">Moon Rise</div>
+            <div class="rise-set-time" id="moon-rise">--:--</div>
+        </div>
+        <div class="rise-set-item">
+            <div class="label">Moon Set</div>
+            <div class="rise-set-time" id="moon-set">--:--</div>
+        </div>
+    </div>
+    <!-- Prev/Next at bottom of moon phase section -->
+    <div class="swipe-nav" style="display: flex; justify-content: space-between; width: 100%;">
+        <button class="swipe-btn prev" data-direction="prev">◀ Prev Day</button>
+        <button class="swipe-btn next" data-direction="next">Next Day ▶</button>
+    </div>
+</div>
+
+                <!-- Moon Mansion Card - Swipeable -->
+                <div class="card mansion-card swipeable-card" data-aspect="mansion">
+                    <div class="swipe-hint">← Swipe to see other days →</div>
+                    <div class="card-date-label" id="mansion-card-date"></div>
+                    <div class="label">Moon Mansions Today</div>
+                    <div class="all-mansions-container" id="all-mansions-container"></div>
+                    <div class="swipe-nav">
+                        <button class="swipe-btn prev" data-direction="prev">◀ Prev Day</button>
+                        <button class="swipe-btn next" data-direction="next">Next Day ▶</button>
+                    </div>
+                </div>
+
+                <!-- Moon in Zodiac Card - Swipeable -->
+                <div class="card zodiac-card swipeable-card" data-aspect="zodiac">
+                    <div class="swipe-hint">← Swipe to see other days →</div>
+                    <div class="card-date-label" id="zodiac-card-date"></div>
+                    <div class="label">Moon Signs Today</div>
+                    <div class="all-signs-container" id="all-signs-container"></div>
+                    <div class="swipe-nav">
+                        <button class="swipe-btn prev" data-direction="prev">◀ Prev Day</button>
+                        <button class="swipe-btn next" data-direction="next">Next Day ▶</button>
+                    </div>
+                </div>
+
+                <!-- Void of Course Card - Swipeable -->
+                <div class="card voc-card swipeable-card" id="voc-card" data-aspect="voc">
+                    <div class="swipe-hint">← Swipe to see other days →</div>
+                    <div class="card-date-label" id="voc-card-date"></div>
+                    <div class="voc-header">
+                        <div class="label clickable" id="voc-label">Moon Void of Course</div>
+                        <span class="voc-status" id="voc-status">✓ Clear</span>
+                    </div>
+                    <div class="voc-timing" id="voc-timing" style="display: none;">
+                        <div id="voc-times"></div>
+                    </div>
+                    <div class="swipe-nav">
+                        <button class="swipe-btn prev" data-direction="prev">◀ Prev Day</button>
+                        <button class="swipe-btn next" data-direction="next">Next Day ▶</button>
+                    </div>
+                </div>
+
+                <!-- Retrograde Planets Card - Swipeable -->
+                <div class="card retro-card swipeable-card" data-aspect="retro">
+                    <div class="swipe-hint">← Swipe to see other days →</div>
+                    <div class="card-date-label" id="retro-card-date"></div>
+                    <div class="label">Retrograde Planets</div>
+                    <div class="retro-planets" id="retro-planets">
+                        <div class="no-retro">No planets in retrograde</div>
+                    </div>
+                    <div class="mercury-status clickable" id="mercury-status" style="margin-top: 1rem; padding: 0.5rem; background: hsl(var(--muted) / 0.3); border-radius: 0.5rem; text-align: center; display: none;">
+                        Mercury is Direct ✓
+                    </div>
+                    <div class="swipe-nav">
+                        <button class="swipe-btn prev" data-direction="prev">◀ Prev Day</button>
+                        <button class="swipe-btn next" data-direction="next">Next Day ▶</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar View -->
+        <div id="calendar-view" class="tab-content">
+            <div class="calendar-nav">
+                <button class="nav-btn" id="prev-month">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                <div class="month-title" id="month-title">January 2025</div>
+                <button class="nav-btn" id="next-month">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="calendar-grid">
+                <div class="weekday">Sun</div>
+                <div class="weekday">Mon</div>
+                <div class="weekday">Tue</div>
+                <div class="weekday">Wed</div>
+                <div class="weekday">Thu</div>
+                <div class="weekday">Fri</div>
+                <div class="weekday">Sat</div>
+                <div id="calendar-days"></div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            ✦ All times displayed in local time for your selected location ✦
+            <div class="footer-sub">Click on any item for detailed meanings and guidance</div>
+        </footer>
+    </div>
+
+    <!-- Mansion Dialog -->
+    <div id="mansion-dialog" class="dialog-overlay dialog-secondary" style="display: none;">
+        <div class="dialog position">
+            <button class="dialog-close" id="close-mansion-dialog">×</button>
+            <h2 class="dialog-title" id="dialog-mansion-name"></h2>
+            <div class="dialog-section">
+                <h4>Essence</h4>
+                <p id="dialog-essence"></p>
+            </div>
+            <div class="dialog-section good">
+                <h4>Good For</h4>
+                <p id="dialog-good"></p>
+            </div>
+            <div class="dialog-section bad">
+                <h4>Bad For</h4>
+                <p id="dialog-bad"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day Dialog (Monthly View) -->
+    <div id="day-dialog" class="dialog-overlay" style="display: none;">
+        <div class="dialog position day-dialog-swipeable">
+            <button class="dialog-close" id="close-day-dialog">×</button>
+            <div class="day-dialog-nav">
+                <button class="swipe-btn prev" id="day-dialog-prev">◀ Prev Day</button>
+                <h2 class="dialog-title" id="day-dialog-title"></h2>
+                <button class="swipe-btn next" id="day-dialog-next">Next Day ▶</button>
+            </div>
+            <div class="day-dialog-items" id="day-dialog-items"></div>
+            <button class="expand-daily-btn" id="expand-to-daily">View in Daily Mode →</button>
+        </div>
+    </div>
+
+    <!-- VOC Explanation Dialog -->
+    <div id="voc-dialog" class="dialog-overlay dialog-secondary" style="display: none;">
+        <div class="dialog position">
+            <button class="dialog-close" id="close-voc-dialog">×</button>
+            <h2 class="dialog-title">Moon Void of Course</h2>
+            <div class="dialog-section">
+                <p>The Moon is Void of Course when it makes no more major aspects (conjunction, sextile, square, trine, or opposition) to any planet before leaving its current zodiac sign.</p>
+                <p style="margin-top: 1rem;">It is believed that anything undertaken during such a period will bring no result.</p>
+                <p style="margin-top: 1rem;">On the positive side, if something risky or difficult is undertaken, something where other people can create a problem or interrupt you, this time seems to be beneficial, because those who might create a problem can do nothing against you.</p>
+                <p style="margin-top: 1rem;">The last aspect shows the mood, or the flavor, of the void-of-course period. Depending on it, the period can be more positive, or more stressful.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Moon Phase Explanation Dialog -->
+    <div id="phase-dialog" class="dialog-overlay dialog-secondary" style="display: none;">
+        <div class="dialog position">
+            <button class="dialog-close" id="close-phase-dialog">×</button>
+            <h2 class="dialog-title" id="phase-dialog-title"></h2>
+            <div class="dialog-section">
+                <p id="phase-dialog-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zodiac Sign Explanation Dialog -->
+    <div id="zodiac-dialog" class="dialog-overlay dialog-secondary" style="display: none;">
+        <div class="dialog position">
+            <button class="dialog-close" id="close-zodiac-dialog">×</button>
+            <h2 class="dialog-title" id="zodiac-dialog-title"></h2>
+            <div class="dialog-section">
+                <p id="zodiac-dialog-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mercury Retrograde/Direct Dialog -->
+    <div id="mercury-dialog" class="dialog-overlay dialog-secondary" style="display: none;">
+        <div class="dialog position">
+            <button class="dialog-close" id="close-mercury-dialog">×</button>
+            <h2 class="dialog-title" id="mercury-dialog-title">Mercury</h2>
+            <div class="dialog-section">
+                <p id="mercury-dialog-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Retrograde Explanation Dialog -->
+    <div id="retro-dialog" class="dialog-overlay dialog-secondary" style="display: none;">
+        <div class="dialog position">
+            <button class="dialog-close" id="close-retro-dialog">×</button>
+            <h2 class="dialog-title" id="retro-dialog-title"></h2>
+            <div class="dialog-section">
+                <p id="retro-dialog-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
